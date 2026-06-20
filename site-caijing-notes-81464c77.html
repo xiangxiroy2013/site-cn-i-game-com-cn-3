@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>彩经网 · 站点信息卡片</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #fce4b3 0%, #f5c787 50%, #ebac6b 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .page-wrap {
+      max-width: 1120px;
+      width: 100%;
+    }
+
+    /* 主视觉卡片 — 暖色渐变 + 白色内容 */
+    .hero-card {
+      background-color: #ffffff;
+      border-radius: 40px 40px 40px 40px;
+      box-shadow: 0 18px 40px rgba(160, 80, 20, 0.18), 0 6px 18px rgba(0, 0, 0, 0.04);
+      padding: 2.8rem 2.5rem 2.8rem 2.5rem;
+      margin-bottom: 2.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .hero-flex {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hero-tagline {
+      flex: 2 1 320px;
+    }
+
+    .hero-visual {
+      flex: 1 1 220px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .visual-badge {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fce7b3, #e99f5c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 28px rgba(200, 120, 30, 0.25);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      text-align: center;
+      line-height: 1.5;
+      padding: 0 0.8rem;
+    }
+
+    .hero-tagline h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #3e2c1a;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-tagline .sub {
+      font-size: 1.1rem;
+      color: #6b4f2b;
+      border-left: 4px solid #e3974b;
+      padding-left: 1rem;
+      margin: 0.8rem 0 1.2rem 0;
+      line-height: 1.5;
+    }
+
+    .hero-tagline p {
+      color: #3f2f1c;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .hero-tagline .inline-link {
+      background: #fceedb;
+      border-radius: 40px;
+      padding: 0.3rem 0.9rem;
+      display: inline-block;
+      margin-top: 0.2rem;
+    }
+
+    .hero-tagline a {
+      color: #aa5d28;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+      border-bottom: 1.5px dotted transparent;
+    }
+    .hero-tagline a:hover {
+      border-bottom-color: #b46f38;
+      color: #854b1d;
+    }
+
+    /* 卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 2.8rem;
+    }
+
+    .info-card {
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 1.8rem 1.6rem 2rem 1.6rem;
+      box-shadow: 0 12px 24px rgba(130, 70, 10, 0.08);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 32px rgba(150, 80, 20, 0.12);
+    }
+
+    .info-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #3d2c17;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card h3 span {
+      background: #eab67a;
+      color: white;
+      font-size: 0.8rem;
+      border-radius: 40px;
+      padding: 0.1rem 0.7rem;
+    }
+
+    .info-card p {
+      color: #4d3a23;
+      line-height: 1.65;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card .tag-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.7rem;
+      margin-top: 0.8rem;
+    }
+
+    .tag-list li {
+      background: #f5e2ca;
+      border-radius: 40px;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      color: #593d20;
+    }
+
+    .card-soft-link {
+      display: inline-block;
+      margin-top: 1rem;
+      background: #f1d9bb;
+      color: #593f23;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .card-soft-link:hover {
+      background: #e7c59f;
+      color: #3f2c15;
+    }
+
+    /* 自然链接段落 — 白色卡片 */
+    .link-paragraph-card {
+      background: #ffffff;
+      border-radius: 40px;
+      padding: 2rem 2.4rem;
+      margin-bottom: 2.8rem;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.03);
+    }
+
+    .link-paragraph-card p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #3e2d1a;
+      max-width: 780px;
+    }
+
+    .link-paragraph-card a {
+      color: #b45d24;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1.5px solid #e5b685;
+      transition: 0.2s;
+    }
+
+    .link-paragraph-card a:hover {
+      color: #7b4517;
+      border-bottom-color: #a65e2a;
+    }
+
+    /* faq 摘要卡片 */
+    .faq-mini {
+      background: #ffffff;
+      border-radius: 40px;
+      padding: 1.8rem 2.4rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.02);
+      margin-bottom: 2.8rem;
+    }
+
+    .faq-mini h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #3b2a17;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .faq-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .faq-q {
+      font-weight: 600;
+      color: #4d341b;
+    }
+
+    .faq-a {
+      color: #5f482c;
+      line-height: 1.5;
+      font-size: 0.95rem;
+      padding-left: 0.6rem;
+      border-left: 3px solid #efcd9e;
+      padding-left: 0.8rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #4d3a1e;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      padding: 1rem 0 0.2rem;
+    }
+
+    @media (max-width: 620px) {
+      .hero-card {
+        padding: 2rem 1.5rem;
+      }
+      .hero-tagline h1 {
+        font-size: 1.8rem;
+      }
+      .visual-badge {
+        width: 120px;
+        height: 120px;
+        font-size: 1rem;
+      }
+      .card-grid {
+        gap: 1.2rem;
+      }
+      .link-paragraph-card {
+        padding: 1.6rem 1.2rem;
+      }
+      .faq-mini {
+        padding: 1.4rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+  <!-- 主视觉卡片 -->
+  <div class="hero-card">
+    <div class="hero-flex">
+      <div class="hero-tagline">
+        <h1>彩经网 · 信息站</h1>
+        <div class="sub">从真实视角了解一个内容站点</div>
+        <p>
+          这里既不是投资建议平台，也不做任何承诺。我们试着用客观的视角，
+          介绍一个以财经资讯和内容分享为主的网站——<span class="inline-link"><a href="https://site-caijing.com">彩经网</a></span>。
+          站内信息涵盖市场动态、行业观察与基础数据，适合希望开阔信息渠道、保持日常阅读习惯的朋友。
+        </p>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-badge">内容<br>卡片站</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 用途卡片 + 适合人群 网格 -->
+  <div class="card-grid">
+    <div class="info-card">
+      <h3>📘 站点用途 <span>用途</span></h3>
+      <p>作为财经类信息集合站，<strong>彩经网</strong>提供经过整理的行业资讯、理财知识及市场解读，帮助用户快速浏览不同维度的内容。整体偏重信息呈现，而非交易或投资劝导。</p>
+      <ul class="tag-list">
+        <li>行业观察</li>
+        <li>财经资讯</li>
+        <li>数据图表</li>
+        <li>知识阅读</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>🧑‍💼 适合人群 <span>谁在用</span></h3>
+      <p>对财经话题有好奇心、希望拓展信息面的普通读者；日常关注市场变化、但又不想被过度营销内容打扰的浏览者。也适合想通过阅读积累基础认知的学生或职场人。</p>
+      <ul class="tag-list">
+        <li>财经入门者</li>
+        <li>资讯爱好者</li>
+        <li>理性浏览者</li>
+        <li>自学参考</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>🔍 可靠说明 <span>可信度</span></h3>
+      <p>网站内容来源以公开信息、行业分析及合规转载为主，并非理财建议或保证。用户阅读时应结合自身判断，保持独立思考。彩经网持续优化信息展示方式，但不代表任何投资立场。</p>
+      <a href="https://site-caijing.com" class="card-soft-link">彩经网</a>
+    </div>
+  </div>
+
+  <!-- 自然链接段落（嵌入a标签） -->
+  <div class="link-paragraph-card">
+    <p>
+      很多朋友第一次接触<strong>彩经网</strong>时会问：这个网站到底提供什么？简单来说，
+      它是一个围绕财经与市场内容打造的信息聚合站点，你可以在里面看到不同角度的行业分析、
+      理财科普以及经济日历。站点设计偏向干净阅读，没有过多弹窗或诱导链接。
+      如果你平时喜欢通过<a href="https://site-caijing.com">彩经网</a>获取一些新鲜资讯，
+      或者想利用碎片时间了解财经常识，那它或许能成为你书签栏里的一个安静角落。
+      当然，任何信息都建议交叉验证，保持自己的节奏最重要。
+    </p>
+  </div>
+
+  <!-- FAQ 摘要卡片 -->
+  <div class="faq-mini">
+    <h4>❓ 常见疑问 · 摘要</h4>
+    <div class="faq-item">
+      <div class="faq-q">Q: 彩经网提供投资建议吗？</div>
+      <div class="faq-a">不提供。所有内容仅为信息整理与分享，不构成投资指导或操作建议。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: 网站内容可靠吗？</div>
+      <div class="faq-a">内容主要来自公开数据与合规转载，用户仍需自行核实判断。我们建议多渠道对比。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: 需要注册才能浏览吗？</div>
+      <div class="faq-a">大部分内容无需注册即可阅读，部分互动功能或需简单注册，详情可参考站点说明。</div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    — 暖色卡片 · 信息站点介绍 —
+  </div>
+</div>
+</body>
+</html>

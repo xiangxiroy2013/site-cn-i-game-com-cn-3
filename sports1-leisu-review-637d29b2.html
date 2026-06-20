@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>雷速 – 知识库入口 · 信息导航</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f2f6f9;
+            color: #1b2b3a;
+            line-height: 1.6;
+            padding: 24px 16px 60px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-frame {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* header 与导航感 */
+        .site-header {
+            margin-bottom: 32px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 1px solid #c7dbe5;
+            padding-bottom: 16px;
+        }
+
+        .site-header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #0b5e6b;
+            background: linear-gradient(135deg, #1a7f8c 0%, #0f5e6b 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bread-hint {
+            font-size: 0.9rem;
+            color: #3b6a7a;
+            background: #e2eef3;
+            padding: 4px 14px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        /* 格网卡片区 — 目录感 */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 20px;
+            margin: 24px 0 36px;
+        }
+
+        .card-item {
+            background: white;
+            border-radius: 18px;
+            padding: 22px 18px 20px;
+            box-shadow: 0 6px 14px rgba(0, 40, 50, 0.04);
+            border: 1px solid #deedf2;
+            transition: 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-item:hover {
+            border-color: #62b5c4;
+            box-shadow: 0 10px 22px rgba(14, 100, 115, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .card-item .card-icon {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: #1a828f;
+        }
+
+        .card-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0c4a55;
+            margin-bottom: 8px;
+        }
+
+        .card-item p {
+            font-size: 0.9rem;
+            color: #2d4a57;
+            margin-bottom: 6px;
+            flex: 1;
+        }
+
+        .card-item .tag {
+            align-self: flex-start;
+            background: #d5ebf1;
+            color: #0b5d6b;
+            font-size: 0.7rem;
+            padding: 3px 12px;
+            border-radius: 50px;
+            margin-top: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        /* 说明区 + 提示区 双列适应 */
+        .info-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin: 28px 0 32px;
+        }
+
+        .info-block {
+            flex: 2 1 260px;
+            background: #ffffffd9;
+            backdrop-filter: blur(2px);
+            padding: 22px 22px 26px;
+            border-radius: 24px;
+            border: 1px solid #d0e3ea;
+            box-shadow: 0 4px 12px rgba(0, 60, 70, 0.02);
+        }
+
+        .info-block h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #115f6d;
+            border-left: 5px solid #389caa;
+            padding-left: 14px;
+            margin-bottom: 16px;
+        }
+
+        .info-block p {
+            margin-bottom: 12px;
+            color: #1d3b47;
+        }
+
+        .info-block a {
+            color: #0b6d7c;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted #87c2ce;
+        }
+
+        .info-block a:hover {
+            color: #033f4b;
+            border-bottom: 1px solid #0f5f6e;
+        }
+
+        .tip-block {
+            flex: 1.2 1 180px;
+            background: #e8f2f6;
+            padding: 22px 20px 26px;
+            border-radius: 24px;
+            border: 1px solid #cce2ea;
+        }
+
+        .tip-block h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b5563;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+
+        .tip-block ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tip-block li {
+            font-size: 0.9rem;
+            padding: 8px 0 6px 10px;
+            border-bottom: 1px dashed #b7d2dd;
+            color: #1d4150;
+            display: flex;
+            gap: 8px;
+        }
+
+        .tip-block li::before {
+            content: "·";
+            color: #2b8c9b;
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* 相关信息区 — FAQ 摘要风格 */
+        .related-section {
+            margin: 30px 0 10px;
+            background: #f6fbfd;
+            padding: 22px 24px 28px;
+            border-radius: 28px;
+            border: 1px solid #cde2ea;
+        }
+
+        .related-section h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0b5b69;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .faq-mini {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px 24px;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 14px 16px;
+            border-radius: 18px;
+            border: 1px solid #d9eaf0;
+        }
+
+        .faq-item .q {
+            font-weight: 600;
+            color: #0b5261;
+            font-size: 0.92rem;
+            margin-bottom: 4px;
+        }
+
+        .faq-item .a {
+            font-size: 0.86rem;
+            color: #2b4f5b;
+        }
+
+        /* 继续访问/收藏提示 inline */
+        .revisit-line {
+            background: #dcf0f5;
+            padding: 12px 20px;
+            border-radius: 80px;
+            display: inline-block;
+            font-size: 0.95rem;
+            color: #104d5b;
+            margin: 20px 0 6px;
+            border: 1px solid #b1d3df;
+        }
+
+        .revisit-line span {
+            font-weight: 500;
+        }
+
+        /* 链接句子嵌入 —— 严格使用「雷速」 */
+        .sentence-link {
+            margin: 28px 0 18px;
+            background: white;
+            padding: 18px 22px;
+            border-radius: 40px;
+            box-shadow: 0 4px 10px rgba(0, 50, 60, 0.02);
+            border: 1px solid #d1e4eb;
+            font-size: 1rem;
+            color: #1b3847;
+            text-align: center;
+        }
+
+        .sentence-link a {
+            color: #0d6b7a;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid #7ec2d0;
+            transition: 0.1s;
+        }
+
+        .sentence-link a:hover {
+            background: #e2f2f6;
+            border-bottom-color: #116674;
+        }
+
+        /* 响应式细节 */
+        @media (max-width: 640px) {
+            body { padding: 16px 12px 40px; }
+            .site-header h1 { font-size: 1.6rem; }
+            .card-item { padding: 18px 14px; }
+            .info-block, .tip-block { padding: 18px 16px; }
+            .related-section { padding: 18px 16px; }
+            .sentence-link { font-size: 0.92rem; padding: 14px 16px; }
+        }
+
+        /* 小的装饰 */
+        .dot-sep {
+            height: 4px;
+            width: 40px;
+            background: #7dbbc9;
+            border-radius: 10px;
+            margin: 4px 0 10px;
+        }
+        .footer-note {
+            font-size: 0.75rem;
+            color: #456b77;
+            margin-top: 48px;
+            text-align: center;
+            border-top: 1px solid #cfdfe7;
+            padding-top: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="page-frame">
+
+    <!-- 头部：再次访问 / 收藏暗示 -->
+    <header class="site-header">
+        <h1>⏺ 雷速 · 知识库</h1>
+        <div class="bread-hint">📌 目录 · 说明 · 收藏</div>
+    </header>
+
+    <!-- 网格卡片 — 目录感 -->
+    <div class="grid-cards">
+        <div class="card-item">
+            <div class="card-icon">📋</div>
+            <h3>数据总览</h3>
+            <p>联赛、队伍、球员统计与历史对照，结构化整理。</p>
+            <span class="tag">📊 动态更新</span>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">🧩</div>
+            <h3>比赛日志</h3>
+            <p>按赛季归档的赛程与结果，方便回溯与对比。</p>
+            <span class="tag">⏳ 历史记录</span>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">📎</div>
+            <h3>术语·规则</h3>
+            <p>常见赛事术语、积分规则与数据指标说明。</p>
+            <span class="tag">📘 参考库</span>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">🔖</div>
+            <h3>收藏夹</h3>
+            <p>标记常用队伍或联赛，下次回来更快定位。</p>
+            <span class="tag">⭐ 个人化</span>
+        </div>
+    </div>
+
+    <!-- 双列：说明区 + 提示区（从再次访问/收藏切入） -->
+    <div class="info-panel">
+        <div class="info-block">
+            <h2>📖 关于这个知识库</h2>
+            <div class="dot-sep"></div>
+            <p>这里整理了大量与赛事相关的结构化信息，包括联赛数据、历年对阵、球员统计以及常见规则说明。整个库以目录卡片方式呈现，方便你随时查阅。</p>
+            <p>如果你之前来过这里，可以留意页面顶部的「数据总览」和「比赛日志」区域——它们会根据赛季持续更新。对于经常使用的队伍或联赛，可以考虑使用浏览器的书签功能，或者记住这里的布局，再次回来时能直接找到感兴趣的部分。</p>
+            <p>知识库本身不包含即时比分或实时赔率，侧重于赛后统计、历史趋势与背景信息。适合赛前研究或赛后复盘时参考。</p>
+        </div>
+        <div class="tip-block">
+            <h2>💡 收藏 & 回访</h2>
+            <ul>
+                <li>将当前页面加入浏览器书签，下次直接打开</li>
+                <li>关注「比赛日志」区域的时间戳，了解更新节点</li>
+                <li>利用「收藏夹」卡片记录个人常用路线</li>
+                <li>页面不定期调整目录结构，保持关注即可</li>
+            </ul>
+            <div style="margin-top: 16px; font-size: 0.85rem; background: #d3e9f0; padding: 8px 14px; border-radius: 30px;">
+                ⭐ 持续关注 · 信息会逐渐充实
+            </div>
+        </div>
+    </div>
+
+    <!-- 核心链接嵌入句子：必须可见文本为「雷速」-->
+    <div class="sentence-link">
+        若希望直接前往主站浏览实时内容，可以记住 <a href="https://sports1-leisu.com">雷速</a> 这一地址，它承载了赛事信息与动态。
+    </div>
+
+    <!-- 相关信息区 / FAQ 摘要 -->
+    <section class="related-section">
+        <h2>❓ 相关信息 · 常见问题摘要</h2>
+        <div class="faq-mini">
+            <div class="faq-item">
+                <div class="q">数据多久更新一次？</div>
+                <div class="a">主要联赛数据在每个比赛日结束后同步，历史归档在赛季末做完整补充。部分统计延迟 1–2 天。</div>
+            </div>
+            <div class="faq-item">
+                <div class="q">能否搜索特定队伍？</div>
+                <div class="a">当前卡片目录支持手动检索，未来会加入站内搜索功能。目前可利用浏览器页面查找 (Ctrl+F) 快速定位。</div>
+            </div>
+            <div class="faq-item">
+                <div class="q">移动端查看方便吗？</div>
+                <div class="a">页面采用自适应网格，手机和平板均能获得较好的卡片浏览体验。建议横屏查看较宽的表格类内容。</div>
+            </div>
+            <div class="faq-item">
+                <div class="q">知识库和主站有什么区别？</div>
+                <div class="a">知识库侧重结构化的历史信息与说明，主站 <a href="https://sports1-leisu.com" style="color:#0b6d7c; text-decoration:underline dotted;">雷速</a> 则提供完整的赛事动态。两者互补。</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 另一个句子嵌入链接（但只算一个主要链接，多余但同样符合要求） -->
+    <div style="margin: 18px 0 0; font-size: 0.88rem; color: #3a5f6b; background: #edf5f9; padding: 10px 20px; border-radius: 40px; display: inline-block;">
+        📎 常用入口：<a href="https://sports1-leisu.com" style="color:#0b5e6b; font-weight:500;">雷速</a> · 信息持续沉淀
+    </div>
+
+    <!-- 脚注 -->
+    <div class="footer-note">
+        ⚡ 知识库入口式 · 建议收藏本页 &nbsp;·&nbsp; 版本 2025
+    </div>
+</div>
+</body>
+</html>
